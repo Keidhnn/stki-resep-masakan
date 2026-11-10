@@ -10,7 +10,6 @@ Identitas
 
 Laporan Progres 1
 
-Tanggal: 10 November 2026
 Tahap yang dikerjakan: perancangan sistem dan koleksi resep.
 
 1. Tujuan dan ruang lingkup
@@ -82,15 +81,15 @@ Struktur inverted index:
 
 Tabel Progres
 
-| Tanggal | Kegiatan | Status |
+| Kegiatan | Status |
 |---|---|---|
-| 10 Nov 2026 | Perancangan sistem 
-| 10 Nov 2026 | Koleksi 10 resep dan tampilan daftar (commit 1) 
-| - | Preprocessing dan inverted index 
-| - | Pembobotan TF-IDF 
-| - | Cosine similarity, ranking, dan kolom pencarian 
-| - | Perbaikan tampilan dan tambahan resep 
-| - | Evaluasi (Precision, Recall, F1) 
+| Perancangan sistem 
+| Koleksi 10 resep dan tampilan daftar (commit 1) 
+| Preprocessing dan inverted index 
+| Pembobotan TF-IDF 
+| Cosine similarity, ranking, dan kolom pencarian 
+| Perbaikan tampilan dan tambahan resep 
+| Evaluasi (Precision, Recall, F1) 
 
  Cara menjalankan
 
