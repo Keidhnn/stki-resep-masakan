@@ -1,38 +1,38 @@
-# STKI Pencarian Resep Masakan
+STKI Pencarian Resep Masakan (RECIFIND)
 
 Web pencarian resep masakan Indonesia berdasarkan bahan, dibangun dengan konsep Sistem Temu Kembali Informasi (STKI): preprocessing, inverted index, pembobotan TF-IDF, dan perangkingan dengan cosine similarity. Dibuat dengan HTML, CSS, dan JavaScript tanpa library.
 
-## Identitas
+Identitas
 
 - Nama: Peter V
 - NIM: A11.2023.15322
-- Kelas / Mata kuliah: [4071], Sistem Temu Kembali Informasi
+- Mata kuliah: Sistem Temu Kembali Informasi (4704)
 
-## Laporan Progres 1
+Laporan Progres 1
 
 Tanggal: 10 November 2026
 Tahap yang dikerjakan: perancangan sistem dan koleksi resep.
 
-### 1. Tujuan dan ruang lingkup
+1. Tujuan dan ruang lingkup
 
-- **Tujuan:** membuat web pencarian resep yang mengurutkan hasil berdasarkan kemiripan dengan kata kunci.
-- **Masukan:** bahan atau nama masakan, misalnya "ayam bawang putih".
-- **Keluaran:** daftar resep terurut dari skor kemiripan tertinggi.
-- **Batasan:** koleksi resep statis, bahasa Indonesia, berjalan di browser tanpa server dan tanpa database.
+- Tujuan:membuat web pencarian resep yang mengurutkan hasil berdasarkan kemiripan dengan kata kunci.
+- Masukan: bahan atau nama masakan, misalnya "ayam bawang putih".
+- Keluaran: daftar resep terurut dari skor kemiripan tertinggi.
+- Batasan: koleksi resep statis, bahasa Indonesia, berjalan di browser tanpa server dan tanpa database.
 
-### 2. Kebutuhan sistem
+2. Kebutuhan sistem
 
-**Fungsional**
+Fungsional
 - Pengguna dapat mencari resep melalui kolom pencarian.
 - Pengguna dapat memfilter hasil per kategori.
 - Setiap hasil menampilkan skor kemiripan, bahan, dan langkah memasak.
 - Sistem menampilkan proses query dan inverted index sebagai bahan penjelasan.
 
-**Non-fungsional**
+Non-fungsional
 - Berjalan langsung di browser tanpa instalasi.
 - Tampilan responsif di HP dan komputer.
 
-### 3. Alur sistem
+3. Alur sistem
 
 ```
 TAHAP INDEXING (sekali, saat halaman dibuka)
@@ -44,7 +44,7 @@ Query -> Preprocessing -> Vektor query -> Cosine similarity -> Ranking -> Tampil
 
 Preprocessing: huruf kecil, tokenisasi, dan penghapusan stopword.
 
-### 4. Perancangan data
+4. Perancangan data
 
 Struktur satu resep:
 
@@ -60,14 +60,14 @@ Struktur inverted index:
 { kata: { nomorResep: frekuensi } }
 ```
 
-### 5. Perancangan algoritma
+5. Perancangan algoritma
 
-- **TF:** jumlah kemunculan kata dalam satu resep.
-- **IDF:** log10(1 + N / DF), dengan N jumlah resep dan DF jumlah resep yang memuat kata itu.
-- **Bobot:** TF x IDF.
-- **Kemiripan:** cosine similarity, yaitu jumlah perkalian bobot query dan resep dibagi hasil kali panjang kedua vektor (nilai 0 sampai 1).
+- TF: jumlah kemunculan kata dalam satu resep.
+- IDF: log10(1 + N / DF), dengan N jumlah resep dan DF jumlah resep yang memuat kata itu.
+- Bobot: TF x IDF.
+- Kemiripan:** cosine similarity, yaitu jumlah perkalian bobot query dan resep dibagi hasil kali panjang kedua vektor (nilai 0 sampai 1).
 
-### 6. Perancangan antarmuka
+6. Perancangan antarmuka
 
 1. Hero berisi judul, kolom pencarian, dan tombol contoh query.
 2. Kotak statistik: jumlah resep, jumlah kata unik, dan metode.
@@ -75,28 +75,28 @@ Struktur inverted index:
 4. Kartu hasil dengan nama, bar kemiripan, chip bahan, dan langkah memasak.
 5. Bagian cara kerja serta panel proses query dan inverted index.
 
-### 7. Rencana pengujian
+ 7. Rencana pengujian
 
 - Uji dengan sekitar 15 query yang bervariasi (satu bahan, kombinasi bahan, nama masakan, bahan umum, dan query tanpa hasil).
 - Ukur kualitas dengan Precision@5, Recall@5, dan F1@5.
 
-## Tabel Progres
+Tabel Progres
 
 | Tanggal | Kegiatan | Status |
 |---|---|---|
-| 10 Nov 2026 | Perancangan sistem | Selesai |
-| 10 Nov 2026 | Koleksi 10 resep dan tampilan daftar (commit 1) | Selesai |
-| - | Preprocessing dan inverted index | Belum |
-| - | Pembobotan TF-IDF | Belum |
-| - | Cosine similarity, ranking, dan kolom pencarian | Belum |
-| - | Perbaikan tampilan dan tambahan resep | Belum |
-| - | Evaluasi (Precision, Recall, F1) | Belum |
+| 10 Nov 2026 | Perancangan sistem 
+| 10 Nov 2026 | Koleksi 10 resep dan tampilan daftar (commit 1) 
+| - | Preprocessing dan inverted index 
+| - | Pembobotan TF-IDF 
+| - | Cosine similarity, ranking, dan kolom pencarian 
+| - | Perbaikan tampilan dan tambahan resep 
+| - | Evaluasi (Precision, Recall, F1) 
 
-## Cara menjalankan
+ Cara menjalankan
 
 Buka file `index.html` di browser.
 
-## Rencana berikutnya
+Rencana berikutnya
 
 1. Tambah preprocessing dan inverted index.
 2. Tambah pembobotan TF-IDF.
