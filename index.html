@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Koleksi Resep Masakan</title>
+<style>
+  :root{--bg:#faf5f0;--card:#ffffff;--ink:#2a1519;--muted:#7a6469;--line:#ecdcd8;--accent:#7a1f33}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  header{background:var(--accent);color:#fff;padding:36px 18px;text-align:center}
+  header h1{margin:0 0 4px;font-size:1.8rem}
+  header p{margin:0;opacity:.9}
+  main{max-width:980px;margin:0 auto;padding:24px 18px 48px}
+  .grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .card h2{margin:0 0 4px;font-size:1.1rem}
+  .tag{display:inline-block;font-size:.78rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 10px}
+  .bahan{margin:10px 0;color:var(--muted);font-size:.92rem}
+  summary{cursor:pointer;font-weight:700;color:var(--accent)}
+  ol{margin:8px 0 0;padding-left:22px}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Koleksi Resep Masakan</h1>
+  <p id="jumlah"></p>
+</header>
+
+<main>
+  <ul class="grid" id="daftar"></ul>
+</main>
+
+<script>
+// ===== Koleksi resep =====
+const RESEP = [
+  {nama:"Ayam Goreng Bawang Putih", kategori:"Ayam", bahan:["ayam","bawang putih","garam","merica","minyak goreng"],
+   langkah:["Haluskan bawang putih, garam, dan merica.","Lumuri ayam dengan bumbu, diamkan 30 menit.","Goreng hingga kuning keemasan."]},
+  {nama:"Nasi Goreng Kampung", kategori:"Nasi dan Mie", bahan:["nasi putih","bawang merah","bawang putih","cabai","kecap manis","telur"],
+   langkah:["Tumis bumbu halus sampai harum.","Masukkan telur, orak-arik.","Tambahkan nasi dan kecap, aduk rata."]},
+  {nama:"Sayur Asem", kategori:"Sayur", bahan:["kacang panjang","jagung","labu siam","asam jawa","bawang merah","gula"],
+   langkah:["Rebus air dengan bumbu halus dan asam jawa.","Masukkan jagung, lalu sayur lainnya.","Beri gula dan garam, masak hingga matang."]},
+  {nama:"Ikan Bakar Kecap", kategori:"Ikan", bahan:["ikan nila","kecap manis","bawang putih","jeruk nipis","margarin"],
+   langkah:["Lumuri ikan dengan jeruk nipis dan bawang putih.","Campur kecap manis dengan margarin.","Bakar sambil diolesi bumbu hingga matang."]},
+  {nama:"Tumis Kangkung", kategori:"Sayur", bahan:["kangkung","bawang putih","cabai","terasi","saus tiram"],
+   langkah:["Tumis bawang putih, cabai, dan terasi.","Masukkan kangkung dan saus tiram.","Aduk cepat sekitar 2 menit, angkat."]},
+  {nama:"Soto Ayam", kategori:"Ayam", bahan:["ayam","kunyit","serai","daun jeruk","bawang putih","bihun","telur"],
+   langkah:["Rebus ayam hingga empuk, suwir dagingnya.","Tumis bumbu halus, masukkan ke kuah.","Sajikan dengan bihun, telur, dan suwiran ayam."]},
+  {nama:"Mie Goreng Telur", kategori:"Nasi dan Mie", bahan:["mie","telur","kecap manis","bawang putih","sawi","tomat"],
+   langkah:["Rebus mie, tiriskan.","Tumis bawang putih, telur, dan sawi.","Masukkan mie dan kecap, aduk hingga rata."]},
+  {nama:"Telur Balado", kategori:"Telur", bahan:["telur","cabai merah","bawang merah","bawang putih","tomat"],
+   langkah:["Rebus telur, goreng sebentar hingga kulitnya kecokelatan.","Tumis cabai, bawang, dan tomat yang dihaluskan.","Masukkan telur, aduk hingga bumbu meresap."]},
+  {nama:"Capcay Sayur", kategori:"Sayur", bahan:["wortel","kol","sawi","brokoli","bawang putih","saus tiram","ayam"],
+   langkah:["Tumis bawang putih dan potongan ayam.","Masukkan wortel, kol, sawi, dan brokoli.","Beri saus tiram dan sedikit air, masak sebentar."]},
+  {nama:"Tempe Orek", kategori:"Tempe", bahan:["tempe","kecap manis","bawang merah","bawang putih","cabai","daun salam"],
+   langkah:["Potong tempe, goreng setengah matang.","Tumis bumbu dan daun salam.","Masukkan tempe dan kecap, aduk hingga kering."]}
+];
+
+// ===== Tampilkan semua resep =====
+document.getElementById("jumlah").textContent = RESEP.length + " resep tersedia";
+
+document.getElementById("daftar").innerHTML = RESEP.map(r =>
+  "<li class=\"card\">" +
+    "<h2>" + r.nama + "</h2>" +
+    "<span class=\"tag\">" + r.kategori + "</span>" +
+    "<p class=\"bahan\">Bahan: " + r.bahan.join(", ") + "</p>" +
+    "<details><summary>Langkah memasak</summary><ol>" +
+      r.langkah.map(l => "<li>" + l + "</li>").join("") +
+    "</ol></details>" +
+  "</li>"
+).join("");
+</script>
+</body>
+</html>
