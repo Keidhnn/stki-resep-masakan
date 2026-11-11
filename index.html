@@ -2,38 +2,155 @@
 <html lang="id">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Koleksi Resep Masakan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Recifind: Pencarian Resep Masakan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#faf5f0;--card:#ffffff;--ink:#2a1519;--muted:#7a6469;--line:#ecdcd8;--accent:#7a1f33}
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-  header{background:var(--accent);color:#fff;padding:36px 18px;text-align:center}
-  header h1{margin:0 0 4px;font-size:1.8rem}
-  header p{margin:0;opacity:.9}
-  main{max-width:980px;margin:0 auto;padding:24px 18px 48px}
-  .grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-  .card h2{margin:0 0 4px;font-size:1.1rem}
-  .tag{display:inline-block;font-size:.78rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 10px}
-  .bahan{margin:10px 0;color:var(--muted);font-size:.92rem}
-  summary{cursor:pointer;font-weight:700;color:var(--accent)}
-  ol{margin:8px 0 0;padding-left:22px}
+:root{
+  --bg:#faf5f0; --card:#ffffff; --ink:#2a1519; --muted:#7a6469; --line:#ecdcd8;
+  --accent:#7a1f33; --accent-soft:#f7e8ea; --accent-ink:#ffffff; --hi:#f3e0b5;
+  --hero1:#4a0f1f; --hero2:#701a2f; --hero3:#8f2a43; --gold:#c0974b; --shadow:0 10px 30px rgba(74,15,31,.16);
+  --serif:"Fraunces",Georgia,"Times New Roman",serif; --sans:"DM Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#150c0f; --card:#201317; --ink:#f4e9e6; --muted:#b6a0a4; --line:#3a2429;
+    --accent:#e7a8b5; --accent-soft:#33191f; --accent-ink:#1a0a0e; --hi:#5c4720;
+    --hero1:#2a0a13; --hero2:#43101f; --hero3:#5e1a2d; --gold:#d4ac62; --shadow:0 10px 30px rgba(0,0,0,.5); color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#150c0f; --card:#201317; --ink:#f4e9e6; --muted:#b6a0a4; --line:#3a2429;
+  --accent:#e7a8b5; --accent-soft:#33191f; --accent-ink:#1a0a0e; --hi:#5c4720;
+  --hero1:#2a0a13; --hero2:#43101f; --hero3:#5e1a2d; --gold:#d4ac62; --shadow:0 10px 30px rgba(0,0,0,.5); color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--sans)}
+.wrap{max-width:980px;margin:0 auto;padding:0 18px}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,var(--hero1),var(--hero2) 55%,var(--hero3));color:#fff;border-bottom:3px solid var(--gold);padding:56px 0 84px;text-align:center;position:relative;overflow:hidden}
+.hero::before,.hero::after{content:"";position:absolute;border-radius:50%;background:rgba(184,146,62,.16)}
+.hero::before{width:320px;height:320px;top:-120px;left:-80px}
+.hero::after{width:240px;height:240px;bottom:-110px;right:-60px}
+.hero .wrap{position:relative;z-index:1}
+.eyebrow{display:inline-block;background:rgba(255,255,255,.18);padding:4px 14px;border-radius:999px;font-size:.82rem;font-weight:500;letter-spacing:.04em}
+.brand{font-family:var(--serif);font-size:1.7rem;font-weight:700;letter-spacing:.02em}
+h1{font-family:var(--serif);font-size:clamp(2rem,6vw,3.2rem);line-height:1.15;margin:16px 0 10px}
+.hero p{margin:0 auto;max-width:560px;opacity:.92}
+.search{display:flex;gap:8px;max-width:640px;margin:28px auto 14px;background:var(--card);padding:8px;border-radius:999px;box-shadow:var(--shadow)}
+.search input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-size:1.05rem;padding:10px 16px;outline:none}
+.search button{border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font:inherit;font-weight:700;padding:10px 26px;cursor:pointer;transition:transform .15s}
+.search button:hover{transform:translateY(-1px)}
+.search:focus-within{outline:3px solid rgba(255,255,255,.7);outline-offset:2px}
+.quick{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;font-size:.9rem}
+.quick button{border:1px solid rgba(255,255,255,.55);background:rgba(255,255,255,.14);color:#fff;border-radius:999px;padding:4px 14px;font:inherit;font-size:.88rem;cursor:pointer}
+.quick button:hover{background:rgba(255,255,255,.28)}
+button:focus-visible,summary:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+/* Statistik */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:-44px 0 28px;position:relative;z-index:2}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center;box-shadow:var(--shadow)}
+.stat b{display:block;font-family:var(--serif);font-size:1.5rem;color:var(--accent)}
+.stat span{font-size:.82rem;color:var(--muted)}
+
+/* Filter */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.filters button{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:6px 16px;font:inherit;font-size:.9rem;cursor:pointer}
+.filters button.on{background:var(--accent);border-color:var(--accent);color:var(--accent-ink);font-weight:700}
+.info{color:var(--muted);font-size:.92rem;margin:0 0 14px}
+
+/* Kartu resep */
+.grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(74,15,31,.08);animation:naik .45s ease both;animation-delay:var(--d,0ms)}
+@keyframes naik{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.top{display:flex;gap:12px;align-items:center}
+.ico{flex:none;width:52px;height:52px;border-radius:14px;background:var(--accent-soft);display:grid;place-items:center;font-size:1.7rem}
+.card h2{font-family:var(--serif);font-size:1.12rem;line-height:1.3;margin:0}
+.tag{display:inline-block;margin-top:2px;font-size:.76rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:0 10px}
+.rel{display:flex;align-items:center;gap:10px;margin:14px 0 4px;font-size:.85rem}
+.bar{flex:1;height:8px;border-radius:999px;background:var(--accent-soft);overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--accent));border-radius:999px}
+.rel b{color:var(--accent);min-width:42px;text-align:right}
+.bahan{list-style:none;margin:12px 0 4px;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.bahan li{font-size:.82rem;border:1px solid var(--line);border-radius:999px;padding:1px 10px;color:var(--muted)}
+.bahan li.hit{background:var(--accent-soft);border-color:var(--accent);color:var(--accent);font-weight:700}
+mark{background:var(--hi);color:inherit;padding:0 2px;border-radius:3px}
+.card details{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+summary{cursor:pointer;font-weight:700;color:var(--accent)}
+ol{margin:8px 0 0;padding-left:22px}
+.kosong{grid-column:1/-1;text-align:center;padding:36px 12px;color:var(--muted)}
+.kosong span{display:block;font-size:2.4rem}
+
+/* Cara kerja */
+h3{font-family:var(--serif);font-size:1.5rem;margin:48px 0 14px}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;counter-reset:s}
+.how div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;counter-increment:s}
+.how div::before{content:counter(s);display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-weight:700;margin-bottom:8px}
+.how b{display:block}
+.how span{font-size:.88rem;color:var(--muted)}
+details.box{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px;margin-top:12px}
+.scroll{overflow-x:auto;margin-top:10px}
+table{border-collapse:collapse;width:100%;font-size:.9rem}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+code{background:var(--accent-soft);padding:1px 6px;border-radius:4px}
+footer{text-align:center;color:var(--muted);font-size:.85rem;padding:36px 18px 48px}
+@media (max-width:520px){.search{border-radius:18px;flex-wrap:wrap}.search button{width:100%}.stats{margin-top:-36px}}
+@media (prefers-reduced-motion: reduce){.card{animation:none}html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Koleksi Resep Masakan</h1>
-  <p id="jumlah"></p>
+<header class="hero">
+  <div class="wrap">
+    <div class="brand">Recifind</div>
+    <h1>Cari resep dari bahan di dapurmu</h1>
+    <p>Ketik bahan atau nama masakan.</p>
+    <form class="search" id="form">
+      <input type="search" id="q" placeholder="Contoh: ayam bawang putih" aria-label="Bahan atau nama masakan" autocomplete="off">
+      <button type="submit">Cari resep</button>
+    </form>
+    <div class="quick" id="quick"><span>Coba:</span></div>
+  </div>
 </header>
 
-<main>
-  <ul class="grid" id="daftar"></ul>
+<main class="wrap">
+  <div class="stats">
+    <div class="stat"><b id="sRes">0</b><span>resep di koleksi</span></div>
+    <div class="stat"><b id="sTerm">0</b><span>kata unik di index</span></div>
+    <div class="stat"><b>TF-IDF</b><span>dengan cosine similarity</span></div>
+  </div>
+
+  <div class="filters" id="filters" role="group" aria-label="Filter kategori"></div>
+  <p class="info" id="info"></p>
+  <ul class="grid" id="hasil"></ul>
+
+  <h3>Bagaimana sistem ini bekerja</h3>
+  <div class="how">
+    <div><b>Preprocessing</b><span>Huruf kecil, tokenisasi, dan penghapusan stopword.</span></div>
+    <div><b>Indexing</b><span>Membuat inverted index: kata dan resep yang memuatnya.</span></div>
+    <div><b>Pembobotan</b><span>Kata langka diberi bobot lebih besar lewat TF-IDF.</span></div>
+    <div><b>Ranking</b><span>Cosine similarity mengurutkan resep dari yang paling mirip.</span></div>
+  </div>
+
+  <details class="box">
+    <summary>Langkah pemrosesan query terakhir</summary>
+    <p id="proses">Belum ada pencarian.</p>
+  </details>
+  <details class="box">
+    <summary>Inverted index (kata dan resep yang memuatnya)</summary>
+    <div class="scroll"><table id="indeks"></table></div>
+  </details>
 </main>
 
+
 <script>
-// ===== Koleksi resep =====
+// ===== Langkah 2: koleksi resep =====
 const RESEP = [
   {nama:"Ayam Goreng Bawang Putih", kategori:"Ayam", bahan:["ayam","bawang putih","garam","merica","minyak goreng"],
    langkah:["Haluskan bawang putih, garam, dan merica.","Lumuri ayam dengan bumbu, diamkan 30 menit.","Goreng hingga kuning keemasan."]},
@@ -54,22 +171,138 @@ const RESEP = [
   {nama:"Capcay Sayur", kategori:"Sayur", bahan:["wortel","kol","sawi","brokoli","bawang putih","saus tiram","ayam"],
    langkah:["Tumis bawang putih dan potongan ayam.","Masukkan wortel, kol, sawi, dan brokoli.","Beri saus tiram dan sedikit air, masak sebentar."]},
   {nama:"Tempe Orek", kategori:"Tempe", bahan:["tempe","kecap manis","bawang merah","bawang putih","cabai","daun salam"],
-   langkah:["Potong tempe, goreng setengah matang.","Tumis bumbu dan daun salam.","Masukkan tempe dan kecap, aduk hingga kering."]}
+   langkah:["Potong tempe, goreng setengah matang.","Tumis bumbu dan daun salam.","Masukkan tempe dan kecap, aduk hingga kering."]},
+  {nama:"Rendang Daging", kategori:"Daging", bahan:["daging sapi","santan","cabai merah","bawang merah","bawang putih","lengkuas","serai","daun jeruk"],
+   langkah:["Haluskan cabai, bawang, dan lengkuas, lalu tumis hingga harum.","Masukkan daging, santan, serai, dan daun jeruk.","Masak api kecil hingga kuah menyusut dan daging empuk."]},
+  {nama:"Sate Ayam Bumbu Kacang", kategori:"Ayam", bahan:["ayam","kacang tanah","kecap manis","bawang putih","cabai","tusuk sate"],
+   langkah:["Potong ayam dan tusuk dengan tusuk sate.","Haluskan kacang tanah, bawang putih, dan cabai, campur kecap.","Bakar sate sambil diolesi bumbu, sajikan dengan sisa bumbu."]},
+  {nama:"Bakso Sapi", kategori:"Sup", bahan:["daging sapi giling","tepung tapioka","bawang putih","garam","merica","seledri"],
+   langkah:["Campur daging giling, tapioka, bawang putih, garam, dan merica.","Bentuk bulat, rebus hingga mengapung.","Sajikan dengan kuah kaldu dan taburan seledri."]},
+  {nama:"Sop Ayam", kategori:"Sup", bahan:["ayam","wortel","kentang","seledri","bawang putih","bawang goreng"],
+   langkah:["Rebus ayam dengan bawang putih hingga kaldu keluar.","Masukkan wortel dan kentang, masak hingga empuk.","Beri seledri dan bawang goreng sebelum disajikan."]},
+  {nama:"Udang Saus Tiram", kategori:"Seafood", bahan:["udang","saus tiram","bawang putih","jahe","daun bawang"],
+   langkah:["Tumis bawang putih dan jahe hingga harum.","Masukkan udang, masak hingga berubah warna.","Tambahkan saus tiram dan daun bawang, aduk sebentar."]},
+  {nama:"Cumi Goreng Tepung", kategori:"Seafood", bahan:["cumi","tepung terigu","telur","garam","merica","minyak goreng"],
+   langkah:["Lumuri cumi dengan garam dan merica.","Celup ke telur kocok, lalu gulingkan di tepung.","Goreng hingga renyah dan kuning keemasan."]},
+  {nama:"Perkedel Kentang", kategori:"Camilan", bahan:["kentang","telur","bawang putih","bawang goreng","seledri","garam","merica"],
+   langkah:["Rebus dan haluskan kentang.","Campur bawang putih, bawang goreng, seledri, garam, dan merica.","Bentuk pipih, celup telur, goreng hingga kecokelatan."]},
+  {nama:"Pisang Goreng", kategori:"Camilan", bahan:["pisang","tepung terigu","gula","garam","minyak goreng"],
+   langkah:["Campur tepung, gula, garam, dan air menjadi adonan kental.","Celupkan irisan pisang ke adonan.","Goreng hingga keemasan dan renyah."]},
+  {nama:"Tahu Isi", kategori:"Camilan", bahan:["tahu","wortel","tauge","tepung terigu","bawang putih","cabai rawit"],
+   langkah:["Goreng tahu sebentar, belah dan kosongkan bagian tengah.","Tumis wortel, tauge, dan bawang putih sebagai isian.","Isi tahu, celup adonan tepung, goreng hingga garing."]},
+  {nama:"Bubur Ayam", kategori:"Nasi dan Mie", bahan:["nasi putih","ayam","kunyit","bawang putih","daun bawang","bawang goreng","kerupuk"],
+   langkah:["Masak nasi dengan air berlebih hingga lembut menjadi bubur.","Rebus ayam dengan kunyit dan bawang putih, suwir dagingnya.","Sajikan bubur dengan ayam suwir, daun bawang, bawang goreng, dan kerupuk."]},
+  {nama:"Gado-Gado", kategori:"Sayur", bahan:["kentang","tauge","kol","kacang panjang","tahu","telur","kacang tanah","cabai","gula merah"],
+   langkah:["Rebus kentang, tauge, kol, dan kacang panjang hingga matang.","Haluskan kacang tanah, cabai, dan gula merah menjadi saus.","Tata sayur, tahu, dan telur, lalu siram dengan saus kacang."]},
+  {nama:"Es Cendol", kategori:"Dessert", bahan:["cendol","santan","gula merah","es batu","garam"],
+   langkah:["Rebus gula merah dengan air hingga larut, dinginkan.","Panaskan santan dengan sedikit garam, dinginkan.","Tata cendol dan es batu, siram santan dan sirup gula merah."]},
+  {nama:"Kolak Pisang", kategori:"Dessert", bahan:["pisang","ubi","santan","gula merah","daun pandan","garam"],
+   langkah:["Rebus air, gula merah, dan daun pandan hingga larut.","Masukkan ubi, masak hingga hampir empuk.","Tambahkan pisang dan santan, masak sebentar sambil diaduk."]},
+  {nama:"Es Teh Lemon", kategori:"Minuman", bahan:["teh","lemon","gula","es batu","air"],
+   langkah:["Seduh teh dengan air panas, tambahkan gula.","Dinginkan, lalu peras lemon ke dalamnya.","Sajikan dengan es batu dan irisan lemon."]},
+  {nama:"Wedang Jahe", kategori:"Minuman", bahan:["jahe","serai","gula merah","air","kayu manis"],
+   langkah:["Memarkan jahe dan serai.","Rebus bersama gula merah dan kayu manis selama 15 menit.","Saring dan sajikan hangat."]},
+  {nama:"Spaghetti Aglio Olio", kategori:"Nasi dan Mie", bahan:["spaghetti","bawang putih","minyak zaitun","cabai","peterseli"],
+   langkah:["Rebus spaghetti hingga al dente, tiriskan.","Tumis irisan bawang putih dan cabai di minyak zaitun.","Masukkan spaghetti, aduk rata, taburi peterseli."]}
 ];
+const IKON = {"Ayam":"🍗","Nasi dan Mie":"🍜","Sayur":"🥬","Ikan":"🐟","Telur":"🥚","Tempe":"🥘","Daging":"🥩","Sup":"🍲","Seafood":"🦐","Camilan":"🍟","Dessert":"🍨","Minuman":"🥤"};
 
-// ===== Tampilkan semua resep =====
-document.getElementById("jumlah").textContent = RESEP.length + " resep tersedia";
+// ===== Langkah 3: preprocessing =====
+const STOPWORD = new Set("dan di ke dari untuk dengan yang atau".split(" "));
+const tokenisasi = t => (t.toLowerCase().match(/[\p{L}\p{N}]+/gu) || []).filter(k => !STOPWORD.has(k));
 
-document.getElementById("daftar").innerHTML = RESEP.map(r =>
-  "<li class=\"card\">" +
-    "<h2>" + r.nama + "</h2>" +
-    "<span class=\"tag\">" + r.kategori + "</span>" +
-    "<p class=\"bahan\">Bahan: " + r.bahan.join(", ") + "</p>" +
-    "<details><summary>Langkah memasak</summary><ol>" +
-      r.langkah.map(l => "<li>" + l + "</li>").join("") +
-    "</ol></details>" +
-  "</li>"
-).join("");
+// ===== Langkah 4: inverted index =====
+const teksResep = r => r.nama + " " + r.kategori + " " + r.bahan.join(" ");
+const tokenDok = RESEP.map(r => tokenisasi(teksResep(r)));
+const indeks = {};
+tokenDok.forEach((tokens, i) => {
+  tokens.forEach(t => { indeks[t] = indeks[t] || {}; indeks[t][i] = (indeks[t][i] || 0) + 1; });
+});
+
+// ===== Langkah 5: bobot TF-IDF =====
+const N = RESEP.length;
+const idf = t => Math.log10(1 + N / Object.keys(indeks[t]).length);
+const vektor = tokens => {
+  const v = {};
+  tokens.forEach(t => { if (indeks[t]) v[t] = (v[t] || 0) + 1; });
+  Object.keys(v).forEach(t => v[t] *= idf(t));
+  return v;
+};
+const panjang = v => Math.sqrt(Object.values(v).reduce((s, x) => s + x * x, 0));
+const vDok = tokenDok.map(vektor);
+
+// ===== Langkah 6: cosine similarity dan ranking =====
+function cari(query){
+  const tq = tokenisasi(query), vq = vektor(tq), pq = panjang(vq);
+  const hasil = vDok.map((vd, i) => {
+    let dot = 0;
+    for (const t in vq) if (vd[t]) dot += vq[t] * vd[t];
+    const pd = panjang(vd);
+    return {i, skor: pq && pd ? dot / (pq * pd) : 0};
+  }).filter(h => h.skor > 0).sort((a, b) => b.skor - a.skor);
+  return {tq, hasil};
+}
+
+// ===== Langkah 7: tampilan =====
+const $ = id => document.getElementById(id);
+let katAktif = "";
+const sorot = (teks, set) => teks.replace(/[\p{L}\p{N}]+/gu, w => set.has(w.toLowerCase()) ? "<mark>" + w + "</mark>" : w);
+
+function kartu(r, skor, set, n){
+  const cocok = b => tokenisasi(b).some(t => set.has(t));
+  return "<li class=\"card\" style=\"--d:" + (n * 60) + "ms\"><div class=\"top\"><span class=\"ico\">" + IKON[r.kategori] +
+    "</span><div><h2>" + sorot(r.nama, set) + "</h2><span class=\"tag\">" + r.kategori + "</span></div></div>" +
+    (skor == null ? "" : "<div class=\"rel\"><div class=\"bar\"><i style=\"width:" + Math.max(6, Math.round(skor * 100)) + "%\"></i></div><b>" + Math.round(skor * 100) + "%</b></div>") +
+    "<ul class=\"bahan\">" + r.bahan.map(b => "<li" + (cocok(b) ? " class=\"hit\"" : "") + ">" + b + "</li>").join("") + "</ul>" +
+    "<details><summary>Langkah memasak</summary><ol>" + r.langkah.map(l => "<li>" + l + "</li>").join("") + "</ol></details></li>";
+}
+
+function tampil(query){
+  const {tq, hasil} = cari(query);
+  const set = new Set(tq);
+  let daftar = tq.length ? hasil.map(h => ({r: RESEP[h.i], skor: h.skor})) : RESEP.map(r => ({r, skor: null}));
+  if (katAktif) daftar = daftar.filter(d => d.r.kategori === katAktif);
+  $("hasil").innerHTML = daftar.length ? daftar.map((d, n) => kartu(d.r, d.skor, set, n)).join("")
+    : "<li class=\"kosong\"><span>🍽️</span>Belum ada resep yang cocok. Coba bahan lain atau ganti kategori.</li>";
+  $("info").textContent = !tq.length ? "Menampilkan semua resep. Ketik bahan untuk mulai mencari."
+    : daftar.length ? "Ditemukan " + daftar.length + " resep, diurutkan dari kemiripan tertinggi."
+    : "Tidak ada hasil untuk kata kunci ini.";
+  $("proses").innerHTML = "Query: <code>" + query.replace(/</g, "&lt;") + "</code><br>Setelah huruf kecil, tokenisasi, dan hapus stopword: " +
+    (tq.length ? tq.map(t => "<code>" + t + "</code>").join(" ") : "(kosong)");
+}
+
+// ===== Isi elemen pendukung =====
+$("sRes").textContent = N;
+$("sTerm").textContent = Object.keys(indeks).length;
+
+$("indeks").innerHTML = "<tr><th>Kata</th><th>DF</th><th>Resep (frekuensi)</th></tr>" +
+  Object.keys(indeks).sort().map(t => {
+    const dok = Object.keys(indeks[t]);
+    return "<tr><td>" + t + "</td><td>" + dok.length + "</td><td>" + dok.map(i => "R" + (+i + 1) + "(" + indeks[t][i] + ")").join(", ") + "</td></tr>";
+  }).join("");
+
+["ayam bawang putih", "telur cabai", "santan gula merah", "udang", "pisang", "sayur"].forEach(c => {
+  const b = document.createElement("button");
+  b.type = "button"; b.textContent = c;
+  b.onclick = () => { $("q").value = c; tampil(c); };
+  $("quick").appendChild(b);
+});
+
+["", ...new Set(RESEP.map(r => r.kategori))].forEach(k => {
+  const b = document.createElement("button");
+  b.type = "button"; b.textContent = k || "Semua";
+  if (!k) b.className = "on";
+  b.onclick = () => {
+    katAktif = k;
+    document.querySelectorAll("#filters button").forEach(x => x.classList.toggle("on", x === b));
+    tampil($("q").value);
+  };
+  $("filters").appendChild(b);
+});
+
+// ===== Langkah 8: hubungkan form =====
+$("form").addEventListener("submit", e => { e.preventDefault(); tampil($("q").value); });
+tampil("");
 </script>
 </body>
 </html>
